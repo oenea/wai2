@@ -1,0 +1,16 @@
+
+		<?php
+		$im = imagecreatefromjpeg('photo.jpeg');
+		$stamp = imagecreatetruecolor(100, 70);
+		imagefilledrectangle($stamp, 0, 0, 99, 69, 0x0000FF);
+		imagefilledrectangle($stamp, 9, 9, 90, 60, 0xFFFFFF);
+		imagestring($stamp, 5, 20, 20, 'libGD', 0x0000FF);
+		imagestring($stamp, 3, 20, 40, '(c) 2007-9', 0x0000FF);
+		$marge_right = 10;
+		$marge_bottom = 10;
+		$sx = imagesx($stamp);
+		$sy = imagesy($stamp);
+		imagecopymerge($im, $stamp, imagesx($im) - $sx - $marge_right, imagesy($im) - $sy - $marge_bottom, 0, 0, imagesx($stamp), imagesy($stamp), 50);
+		imagepng($im, 'photo_stamp.png');
+		simagedestroy($im);
+	?>
