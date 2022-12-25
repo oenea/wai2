@@ -13,10 +13,10 @@
 	<body>
 	<form action="up.php" method="post" class="upload-photo" id="upload-photo" enctype="multipart/form-data">
 		<ul>
-			<li>
+			<!--<li>
 				<label for="name">Name: </label>
 				<input type="text" name="name" id="upload-name">
-			</li>
+			</li>-->
 			<li>		
 				<label for="radio">Public: </label>
 				<input type="radio" name="public-private" id="upload-private">
@@ -25,7 +25,7 @@
 			</li>
 			<li>
 				<label for="file">File: </label>
-				<input type="file" name="fileToUpload" id="fileToUpload">
+				<input type="file" name="file_to_upload" id="file_to_upload">
 			</li>
 			<li>
 				<button type="submit" name="submit" id="upload-submit">Submit</button>
