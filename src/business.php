@@ -15,6 +15,7 @@ function get_db()
     $db = $mongo->wai;
     return $db;
 }
+
 function get_images(){
     $db = get_db();
     return $db->images->find()->toArray();
@@ -35,3 +36,6 @@ function delete_image($id)
     $db = get_db();
     $db->images->deleteOne(['id' => new ObjectID($id)]);
 }
+
+
+
