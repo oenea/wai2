@@ -1,9 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
+    "hash": "92e4d93e6d045f2ef518281c2088a839",
     "content-hash": "023c76bd3315105bc8c3382d234ac1b3",
     "packages": [
         {
@@ -62,11 +63,7 @@
                 "mongodb",
                 "persistence"
             ],
-            "support": {
-                "issues": "https://github.com/mongodb/mongo-php-library/issues",
-                "source": "https://github.com/mongodb/mongo-php-library/tree/v1.1"
-            },
-            "time": "2017-02-16T18:40:32+00:00"
+            "time": "2017-02-16 18:40:32"
         }
     ],
     "packages-dev": [],
@@ -76,6 +73,5 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
-    "platform-dev": [],
-    "plugin-api-version": "2.2.0"
+    "platform-dev": []
 }

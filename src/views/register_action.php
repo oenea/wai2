@@ -2,9 +2,9 @@
 require_once 'connection.php';
 require_once 'library.php';
 
-if (check_login()) {
-    header("Location: upload_view.php");
-}
+//if (check_login()) {
+  //  header("Location: upload_view.php");
+//}
 
 
 if (isset($_POST["register"])) {
@@ -14,14 +14,14 @@ if (isset($_POST["register"])) {
     $options = array('cost' => 10);
     $password = password_hash($password_hash, PASSWORD_BCRYPT, $options);
 
-    $array = array(
+    $form = array(
         "name" => $username,
         "email" => $email,
         "password" => $password
     );
-    $query = check_mail($email); J
+    $query = check_mail($email);
     if ($query) {
-        register();
+        register($form);
         header("Location: login_view.php");
     } else {
         echo "Email already registered";

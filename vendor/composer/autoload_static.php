@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit7e57fe260ff121fcb8a67135031955f4
+class ComposerStaticInitc3d569cf9622d1e39c6006eff30c5ef6
 {
     public static $files = array (
         '3a37ebac017bc098e9a86b35401e7a68' => __DIR__ . '/..' . '/mongodb/mongodb/src/functions.php',
@@ -24,16 +24,11 @@ class ComposerStaticInit7e57fe260ff121fcb8a67135031955f4
         ),
     );
 
-    public static $classMap = array (
-        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
-    );
-
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit7e57fe260ff121fcb8a67135031955f4::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit7e57fe260ff121fcb8a67135031955f4::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit7e57fe260ff121fcb8a67135031955f4::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitc3d569cf9622d1e39c6006eff30c5ef6::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitc3d569cf9622d1e39c6006eff30c5ef6::$prefixDirsPsr4;
 
         }, null, ClassLoader::class);
     }
