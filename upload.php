@@ -12,37 +12,6 @@
 <body>
 
 <?php
-/*
-class verify {
-    private $source;
-    public function __construct($source_image_path) {
-        $this->source = $source_image_path;
-    }
-    public function aa(){
-        $allowed_ext = array("jpg", "jpeg", "png");
-        $image_ext = strtolower(pathinfo($_FILES['userfile']['name']));
-        $upload_ok = 1;
-        if (isset($_POST['submit'])) {
-            if ( getimagesize($_FILES['userfile']['tmp_name']) !== true) {
-                $upload_ok = 0;
-                echo "File is not an image\n";
-            }
-        }
-        if ( in_array($image_ext, $allowed_ext) == false ) {
-            $upload_ok = 0;
-                echo "Wrong file extension\n";
-        }
-        if ( file_exists($this->source) ) {
-            $upload_ok = 0;
-            echo "File already exists.\n";
-        }
-        if ( $_FILES['userfile']['size'] > 1000000 ) {
-            $upload_ok = 0;
-            echo "File too large.\n";
-        }
-    }
-}
-*/
 class image {
     private $source;
     public function __construct($source_image_path) {

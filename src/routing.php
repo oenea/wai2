@@ -1,9 +1,10 @@
 <?php
 
 $routing = [
-    '/' => 'upload',
+    '/' => 'gallery',
+    '/gallery' => 'gallery',
     '/register' => 'register',
     '/login' => 'login',
     '/search' => 'search',
-    '/gallery' => 'gallery',
+    '/upload' => 'upload',
 ];

@@ -1,9 +1,3 @@
-<?php
-    //require_once '../../library.php';
-    //if(check_login()){
-      //  header("Location: upload.php");
-    //}
-?>
 <!DOCTYPE html>
 <html>
 
@@ -12,19 +6,28 @@
 </head>
 
 <body>
+    <?php include "partial/menu.inc.php"; ?>
     <div class="container">
-        <form action="login_action.php" method="post" class="forms" id="login">
+        <form action="<?= $model['action'] ?>" method="post">
             <h3>Login</h3>
             <h4>Log in if you want</h4>
-            <fieldset>
-                <input placeholder="Your name" type="text" name="name" tabindex="1" required autofocus>
-            </fieldset>
-            <fieldset>
-                <input placeholder="Your password" type="password" name="password" tabindex="3" required>
-            </fieldset>
-            <fieldset>
-                <button name="submit" type="submit" id="login-submit" data-submit="...Sending">Submit</button>
-            </fieldset>
+
+            <label for="username">
+                <?php if ($model['label'])
+                echo 'username' ?>
+            </label>
+            <input type="text" name="username" placeholder="<?php if (!$model['label'])
+            echo 'username' ?>" required>
+
+            <label for="password">
+                <?php if ($model['label'])
+                echo 'Your password' ?>
+            </label>
+            <input type="password" name="password" placeholder="<?php if (!$model['label'])
+            echo 'email' ?>" required>
+
+            <button name="login" type="submit">submit</button>
+        </form>
         </form>
     </div>
     <?php include "includes/footer.inc.php"; ?>

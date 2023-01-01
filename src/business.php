@@ -1,35 +1,128 @@
 <?php
 
-use MongoDB\BSON\ObjectID;
 
 
-function get_db()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+//login and register section
+function register($document)
 {
-    $mongo = new MongoDB\Client(
-        "mongodb://localhost:27017/wai",
-        [
-            'username' => 'wai_web',
-            'password' => 'w@i_w3b',
-        ]
-    );
-    $db = $mongo->wai;
-    return $db;
+    global $collection;
+    $collection->insert($document);
+    return true;
 }
 
-function get_images(){
-    $db = get_db();
-    return $db->images->find()->toArray();
+function check_mail($email)
+{
+    global $collection;
+    $temp = $collection->findOne(array('Email Address' => $email));
+    if (empty($temp)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function setsession($email)
+{
+    $_SESSION["user_logged_in"] = 1;
+    global $collection;
+    $temp = $collection->findOne(array('Email Address' => $email));
+    $_SESSION["username"] = $temp["First Name"];
+    $_SESSION["email"] = $email;
+    return true;
+}
+
+function check_login()
+{
+    if ($_SESSION["user_logged_in"]) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function logout(){
+    unset($_SESSION["user_logged_in"]);
+    unset($_SESSION["username"]);
+    unset($_SESSION["email"]);
+    return true;
+}
+
+// images sections
+function get_images()
+{
+    return $images_db->find()->toArray();
 }
 function get_image($id)
 {
-    $db = get_db();
-    return $db->images->findOne(['id' => new ObjectID($id)]);
+    return $images_db->findOne(['id' => new ObjectID($id)]);
 }
 
 function add_image(){
-    $db = get_db();
     $uniq_id = uniqid();
-    while($db->images->$uniq_d)
+    while(images_db->$uniq_d)
 }
 function delete_image($id)
 {
@@ -37,5 +130,5 @@ function delete_image($id)
     $db->images->deleteOne(['id' => new ObjectID($id)]);
 }
 
-
+*/
 
