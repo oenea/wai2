@@ -65,9 +65,21 @@ function menu(&$model)
     $model['menu'] = array(
         'gallery' => 'Galeria zdjęć',
         'gallery_selected' => 'Galeria zdjęć wybranych',
-        'register' => 'Rejestracja',
+        'upload' => 'Wrzucanie plików',
         'find' => 'Wyszukiwanie'
+
     );
+    $model['menu']['register'] = 'Rejestracja';
+    $model['menu']['login'] = 'Logowanie';
+
+    $model['logout'] = array(
+        'logout' => 'Wylogowanie'
+    );
+
+    session_start();
+    unset($_SESSION);
+    session_destroy();
+    session_write_close();
     return 'menu_view';
 }
 
@@ -155,7 +167,7 @@ function upload(&$model)
         $upload_ok = 0;
     }
     if ($_FILES['userfile']['size'] > 1000000) {
-        $model['log'] =  "File is too large.\n";
+        $model['log'] = "File is too large.\n";
         $upload_ok = 0;
     }
     if ($image_file_type != 'jpg' && $image_file_type != "png" && $image_file_type != 'jpeg') {
@@ -163,7 +175,7 @@ function upload(&$model)
         $upload_ok = 0;
     }
     if ($upload_ok == 0) {
-        $model['log'] =  "File was not uploaded.\n";
+        $model['log'] = "File was not uploaded.\n";
     } else {
         if (move_uploaded_file($_FILES['userfile']['tmp_name'], $target_file)) {
             echo "File " . htmlspecialchars(basename($_FILES['userfile']['name'])) . " has been uploaded.\n";
@@ -173,7 +185,7 @@ function upload(&$model)
             $obj_image->thumbnail_image(200, 125, 'images/thumbnail/');
 
         } else {
-            $model['log'] =  "There was an error uploading file.\n";
+            $model['log'] = "There was an error uploading file.\n";
         }
     }
     return 'upload_view';

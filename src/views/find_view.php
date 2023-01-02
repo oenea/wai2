@@ -23,7 +23,6 @@
         $(function () {
             $('form[data-role=find_form]').unbind('submit').submit(function (e) {
                 e.preventDefault();
- 
                 $('#images').html('');
                 $.post($(this).attr('action'), $(this).serialize(),
                     function (response) {

@@ -12,4 +12,5 @@ $routing = [
     '/login' => 'login',
     '/search' => 'search',
     '/upload' => 'upload',
+    '/logout' => 'logout',
 ];
