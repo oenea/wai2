@@ -2,6 +2,7 @@
 <html>
 
 <head>
+    <title>Logowanie</title>
     <?php include "includes/head.inc.php"; ?>
 </head>
 
@@ -29,7 +30,7 @@
 
             <button name="login" type="submit">submit</button>
         </form>
-        </form>
+        <?= $model['log'] ?>
     </div>
     <?php include "includes/footer.inc.php"; ?>
 </body>

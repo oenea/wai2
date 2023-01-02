@@ -1,75 +1,72 @@
 <?php
 
+use MongoDB\BSON\ObjectID;
 
 
-
-
-
-
-
-
-
-
-/*
-//login and register section
-function register($document)
+function get_db()
 {
-global $collection;
-$collection->insert($document);
-return true;
+    $mongo = new MongoDB\Client(
+        "mongodb://localhost:27017/wai",
+        [
+            'username' => 'wai_web',
+            'password' => 'w@i_w3b',
+        ]);
+    $db = $mongo->wai;
+    return $db;
 }
-function check_mail($email)
+
+function check_image_by_filename($filename, $not_user)
 {
-global $collection;
-$temp = $collection->findOne(array('Email Address' => $email));
-if (empty($temp)) {
-return true;
-} else {
-return false;
+    $db = get_db();
+    if($not_user) {
+        $image = $db->images->findOne(['filename' => $filename, 'user' => ['$ne' => $not_user]]);
+    } else {
+        $image = $db->images->findOne(['filename' => $filename]);
+    }
+    return is_object($image);
 }
-}
-function setsession($email)
+
+function get_author_image_by_filename($filename)
 {
-$_SESSION["user_logged_in"] = 1;
-global $collection;
-$temp = $collection->findOne(array('Email Address' => $email));
-$_SESSION["username"] = $temp["First Name"];
-$_SESSION["email"] = $email;
-return true;
+    $db = get_db();
+    $image = $db->images->findOne(['filename' => $filename]);
+    return is_object($image)? $image['author'] : '';
 }
-function check_login()
+
+function save_image($id, $image)
 {
-if ($_SESSION["user_logged_in"]) {
-return true;
-} else {
-return false;
+    $db = get_db();
+
+    if ($id == null) {
+        $db->images->insertOne($image);
+    } else {
+        $db->images->replaceOne(['_id' => new ObjectID($id)], $image);
+    }
+    return true;
 }
-}
-function logout(){
-unset($_SESSION["user_logged_in"]);
-unset($_SESSION["username"]);
-unset($_SESSION["email"]);
-return true;
-}
-// images sections
-function get_images()
+
+function check_user_by_name($name)
 {
-return $images_db->find()->toArray();
+    $db = get_db();
+    $user = $db->users->findOne(['name' => $name]);
+    return is_object($user);
 }
-function get_image($id)
+
+
+function save_user($id, $user)
 {
-return $images_db->findOne(['id' => new ObjectID($id)]);
+    $db = get_db();
+
+    if ($id == null) {
+        $db->users->insertOne($user);
+    } else {
+        $db->users->replaceOne(['_id' => new ObjectID($id)], $user);
+    }
+    return true;
 }
-function add_image(){
-$uniq_id = uniqid();
-while(images_db->$uniq_d)
-}
-function delete_image($id)
-{
-$db = get_db();
-$db->images->deleteOne(['id' => new ObjectID($id)]);
-}
-*/
+
+
+
 
 class image
 {

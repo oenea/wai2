@@ -2,6 +2,7 @@
 <html>
 
 <head>
+    <title>Wrzucanie plików</title>
     <?php include "includes/head.inc.php"; ?>
 </head>
 
@@ -9,48 +10,46 @@
     <?php dispatch($routing, '/menu') ?>
 
     <div class="container">
-        <form action="<?= $model['action'] ?>" method="POST" enctype="multipart/form-data">
+        <form class="form" action="<?= $model['action'] ?>" method="POST" enctype="multipart/form-data">
             <h3>Upload</h3>
             <h4>Upload photo</h4>
-            <label for="author">
+            <label class="form-label" for="author">
                 <?php if ($model['label'])
                 echo 'autor' ?>
             </label>
-            <input type="text" name="author" placeholder="<?php if (!$model['label'])
+            <input class="form-input" type="text" name="author" value="<?= $login ?>" placeholder="<?php if (!$model['label'])
             echo 'autor' ?>" required>
 
-            <label for="watermark">
+            <label class="form-label" for="watermark">
                 <?php if ($model['label'])
                 echo 'znak wodny' ?>
             </label>
-            <input type="text" name="watermark" placeholder="<?php if (!$model['label'])
+            <input class="form-input" type="text" name="watermark" placeholder="<?php if (!$model['label'])
             echo 'znak wodny' ?>" required>
 
-            <label for="public-private">
+<?php if ($login) { ?>
+            <label class="form-label" for="public-private">
                 <?php if ($model['label'])
                 echo 'publiczne' ?>
             </label>
-            <input type="radio" name="public-private" value="<?php if (!$model['label'])
-            echo 'publiczne' ?>" checked="checked" required>
+            <input class="form-input" type="radio" name="public-private" value="publiczne" checked="checked" required>
 
-            <label for="public-private">
+            <label class="form-label" for="public-private">
                 <?php if ($model['label'])
                 echo 'prywatne' ?>
             </label>
-            <input type="radio" name="public-private" value="<?php if (!$model['label'])
-            echo 'prywatne' ?>" required>
-
-            <label for="file">
+            <input class="form-input" type="radio" name="public-private" value="prywatne" required>
+<?php } ?>
+            <label class="form-label" for="file">
                 <?php if ($model['label'])
                 echo 'file' ?>
             </label>
-            <input type="file" name="file" placeholder="<?php if (!$model['label'])
+            <input class="form-input" type="file" name="file" placeholder="<?php if (!$model['label'])
             echo 'file' ?>" required>
 
-
-            <button name="upload" type="submit">submit</button>
+            <button class="form-button" name="upload" type="submit">submit</button>
         </form>
-        <?= $model['log']?>
+        <?= $model['log'] ?>
     </div>
     <?php include "includes/footer.inc.php"; ?>
 </body>

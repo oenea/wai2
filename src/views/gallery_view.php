@@ -9,10 +9,10 @@
 <body>
 	<?php dispatch($routing, '/menu') ?>
 
-<!--pre>
+	<!--pre>
 	<?php print_r($_SESSION); ?>
 	<?php print_r($_REQUEST); ?>
-</pre-->
+	</pre-->
 	<div>
 		<ul style="<?php if ($total_pages == 1) {
 		echo 'display: none;';
@@ -33,24 +33,26 @@
 		</ul>
 	</div>
 
-	<form method="post">
+	<form class="form" method="POST">
 		<ul>
-			<?php if(isset($images)) foreach($images as $key => $value): ?>
-				<div class="images-border">
-					<a href="<?= $value['href'] ?>"><img src="<?= $value['src'] ?>"></a>
-					<input type="hidden" value="false" name="<?= $value['id'] ?>"/>
-					<input type="checkbox" <?php if($value['checked'] === 'true') echo "checked=\"checked\""; ?> value="true" name="<?= $value['id'] ?>">
-					<label for="<?= $value['id'] ?>"><?= $value['description'] ?></label>
-				</div>
-			<?php endforeach ?>
+			<?php if (isset($images))
+			foreach ($images as $key => $value): ?>
+					<div class="images-border">
+						<a href="<?= $value['href'] ?>"><img src="<?= $value['src'] ?>"></a>
+						<input class="form-input" type="hidden" value="false" name="<?= $value['id'] ?>" />
+						<input class="form-input" type="checkbox" <?php if ($value['checked'] === 'true') echo "checked=\"checked\""; ?> value="true" name="<?= $value['id'] ?>">
+						<label class="form-label" for="<?= $value['id'] ?>">
+							<?= $value['description'] ?>
+							<?php if ($value['private'] === 'true') echo "|<strong>PRIVATE</strong>|".$value['author']; ?>
+						</label>
+					</div>
+					<?php endforeach ?>
 		</ul>
-		<button type="submit">remember selected</button>
+		<button class="form-button" type="submit">remember selected</button>
 	</form>
 	<footer>
 		<?php include 'includes/footer.inc.php'; ?>
 	</footer>
 </body>
-
-<!--<php print($images[0]['filename'] . $images[1]['filename'] . count($images)) ?>-->
 
 </html>

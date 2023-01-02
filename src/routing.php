@@ -8,9 +8,8 @@ $routing = [
     '/find' => 'find',
     '/find_submit' => 'find_submit',
     '/find_result' => 'find_result',
+    '/upload' => 'upload',
     '/register' => 'register',
     '/login' => 'login',
-    '/search' => 'search',
-    '/upload' => 'upload',
-    '/logout' => 'logout',
+    '/logout' => 'logout'
 ];

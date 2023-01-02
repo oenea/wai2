@@ -11,6 +11,7 @@ function gallery(&$model)
     }
     $is_selected = isset($model['is_selected']);
 
+    $model['login'] = (isset($_SESSION['login']) && (strlen($_SESSION['login']) > 0))? $_SESSION['login'] : "";
     $model['page_number'] = isset($_GET['page']) ? $_GET['page'] : 1;
 
     $limit = 5;
@@ -20,7 +21,7 @@ function gallery(&$model)
 
     $model['count_files'] = count($all_files);
     $model['total_pages'] = ceil($model['count_files'] / $limit);
-
+ 
     $n = 0;
     $m = 0;
     for ($idx = 0; $idx < count($all_files); $idx++) {
@@ -39,9 +40,15 @@ function gallery(&$model)
             }
 
             if ($n < $limit) {
+                if ((!$model['login'] && check_image_by_filename($all_files[$idx], '')) ||
+                    ($model['login'] && check_image_by_filename($all_files[$idx], $model['login']))) {
+                        continue;
+                }
+                $model['images'][$idx]['private'] = check_image_by_filename($all_files[$idx], '')? 'true' : 'false';
                 $model['images'][$idx]['href'] = $images_directory . $all_files[$idx];
                 $model['images'][$idx]['src'] = $thumbnail_directory . $all_files[$idx];
                 $model['images'][$idx]['description'] = $all_files[$idx];
+                $model['images'][$idx]['author'] = get_author_image_by_filename($all_files[$idx]);
                 $model['images'][$idx]['id'] = $key;
                 $model['images'][$idx]['checked'] = isset($_SESSION['selected'][$key]) ? $_SESSION['selected'][$key] : 'false';
                 $n++;
@@ -62,6 +69,8 @@ function gallery_selected(&$model)
 
 function menu(&$model)
 {
+    $model['login'] = (isset($_SESSION['login']) && (strlen($_SESSION['login']) > 0))? $_SESSION['login'] : "";
+
     $model['menu'] = array(
         'gallery' => 'Galeria zdjęć',
         'gallery_selected' => 'Galeria zdjęć wybranych',
@@ -69,16 +78,42 @@ function menu(&$model)
         'find' => 'Wyszukiwanie'
 
     );
-    $model['menu']['register'] = 'Rejestracja';
-    $model['menu']['login'] = 'Logowanie';
 
-    if (isset($_POST['logout'])) {
-        unset($_SESSION);
-        session_destroy();
-        session_write_close();
+    if (!isset($_SESSION['login'])) {
+        $model['menu']['register'] = 'Rejestracja';
+        $model['menu']['login'] = 'Logowanie';
+
+    } else if (strlen($_SESSION['login']) > 0) {
+        $model['menu']['logout'] = 'Wylogowanie';
     }
     return 'menu_view';
 }
+
+function login(&$model)
+{
+    $model['log'] = '';
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if (check_user_by_name($_POST['username'])) {
+            $_SESSION['login'] = $_POST['username'];
+            return 'redirect:gallery';
+        } else {
+            $model['log'] = 'Błędny login';
+        }
+    }
+    $model['action'] = '';
+    $model['label'] = false;
+    return 'login_view';
+}
+
+function logout(&$model)
+{
+    unset($_SESSION);
+    session_destroy();
+    session_write_close();
+    return 'redirect:gallery';
+}
+
 
 function find(&$model)
 {
@@ -88,6 +123,8 @@ function find(&$model)
 
 function find_submit(&$model)
 {
+    $model['login'] = (isset($_SESSION['login']) && (strlen($_SESSION['login']) > 0))? $_SESSION['login'] : "";
+
     if (($_SERVER['REQUEST_METHOD'] === 'POST') && isset($_POST['name']) && strlen($_POST['name'])) {
         $thumbnail_directory = 'images/thumbnail/';
         $images_directory = 'images/watermark/';
@@ -95,10 +132,18 @@ function find_submit(&$model)
         $n = 0;
         for ($idx = 0; $idx < count($all_files); $idx++) {
             if (strpos($all_files[$idx], $_POST['name']) !== false) {
+
+                if ((!$model['login'] && check_image_by_filename($all_files[$idx], '')) ||
+                    ($model['login'] && check_image_by_filename($all_files[$idx], $model['login']))) {
+                        continue;
+                }
+
                 $key = str_replace(".", "_", $all_files[$idx]);
+                $model['images'][$n]['private'] = check_image_by_filename($all_files[$idx], '')? 'true' : 'false';
                 $model['images'][$n]['href'] = $images_directory . $all_files[$idx];
                 $model['images'][$n]['src'] = $thumbnail_directory . $all_files[$idx];
                 $model['images'][$n]['description'] = $all_files[$idx];
+                $model['images'][$n]['author'] = get_author_image_by_filename($all_files[$idx]);
                 $model['images'][$n]['id'] = $key;
                 $n++;
             }
@@ -118,30 +163,32 @@ function find_result(&$model)
 
 function register(&$model)
 {
+    $model['log'] = '';
+  
+    if (($_SERVER['REQUEST_METHOD'] === 'POST') && isset($_POST['name']) && strlen($_POST['name'])) {
+         if(!check_user_by_name($_POST['name']) ){
+            $user = array(
+                'name' => $_POST['name'],
+                'password' => $_POST['password'],
+                'email' => $_POST['email']
+            );
+            save_user(null, $user);
+            return 'redirect:gallery';
+ 
+        } else {
+            $model['log'] = 'Login zajęty';          
+        }
+    }
     $model['action'] = '';
     $model['label'] = false;
-    $model['log'] = '';
-    $model['log'] = 'Hasła nie są takie same';
     return 'register_view';
 }
 
 
-function login(&$model)
-{
-    $model['action'] = '';
-    $model['label'] = false;
-    return 'login_view';
-}
-
-
-function search(&$model)
-{
-    return 'search_view';
-}
-
 
 function upload(&$model)
 {
+    $model['login'] = (isset($_SESSION['login']) && (strlen($_SESSION['login']) > 0))? $_SESSION['login'] : "";
     $model['action'] = '';
     $model['username'] = 'a';
     $model['label'] = true;
@@ -175,6 +222,15 @@ function upload(&$model)
             $model['log'] .= "File was not uploaded. ";
         } else {
             if (move_uploaded_file($_FILES['file']['tmp_name'], $target_file)) {
+                if($_POST['public-private'] === 'prywatne') {
+                    $image = array(
+                        'filename' => basename($_FILES['file']['name']),
+                        'description' => 'brak',
+                        'user' => $_SESSION['login'],
+                        'author' => $_POST['author']
+                    );
+                    save_image(null, $image);
+                }
                 $model['log'] .= "File " . htmlspecialchars(basename($_FILES['file']['name'])) . " has been uploaded. ";
                 $watermark = $_POST['watermark'];
                 $obj_image = new image($target_file);
