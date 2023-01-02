@@ -13,7 +13,7 @@ function gallery(&$model)
 
     $model['page_number'] = isset($_GET['page']) ? $_GET['page'] : 1;
 
-    $limit = 2;
+    $limit = 5;
     $thumbnail_directory = 'images/thumbnail/';
     $images_directory = 'images/watermark/';
     $all_files = array_slice(scandir($thumbnail_directory), 2);
@@ -72,14 +72,11 @@ function menu(&$model)
     $model['menu']['register'] = 'Rejestracja';
     $model['menu']['login'] = 'Logowanie';
 
-    $model['logout'] = array(
-        'logout' => 'Wylogowanie'
-    );
-
-    session_start();
-    unset($_SESSION);
-    session_destroy();
-    session_write_close();
+    if (isset($_POST['logout'])) {
+        unset($_SESSION);
+        session_destroy();
+        session_write_close();
+    }
     return 'menu_view';
 }
 
@@ -123,6 +120,8 @@ function register(&$model)
 {
     $model['action'] = '';
     $model['label'] = false;
+    $model['log'] = '';
+    $model['log'] = 'Hasła nie są takie same';
     return 'register_view';
 }
 
@@ -148,44 +147,42 @@ function upload(&$model)
     $model['label'] = true;
     $model['title'] = 'a';
     $model['log'] = '';
-
-    $target_dir = 'images/images/';
-    $target_file = $target_dir . basename($_FILES['file']['name']);
-    $upload_ok = 1;
-    $image_file_type = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-    if (isset($_POST['submit'])) {
-        $check = @getimagesize($_FILES['userfile']['tmp_name']);
+    if (isset($_POST['upload'])) {
+        $target_dir = 'images/images/';
+        $target_file = $target_dir . basename($_FILES['file']['name']);
+        $upload_ok = 1;
+        $image_file_type = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+        $check = @getimagesize($_FILES['file']['tmp_name']);
         if ($check !== false) {
             $upload_ok = 1;
         } else {
-            $model['log'] += "File is not an image.\n";
+            $model['log'] .= "File is not an image. ";
             $upload_ok = 0;
         }
-    }
-    if (file_exists($target_file)) {
-        $model['log'] += "File already exists.\n";
-        $upload_ok = 0;
-    }
-    if ($_FILES['userfile']['size'] > 1000000) {
-        $model['log'] = "File is too large.\n";
-        $upload_ok = 0;
-    }
-    if ($image_file_type != 'jpg' && $image_file_type != "png" && $image_file_type != 'jpeg') {
-        $model['log'] += "Only JPG, JPEG, PNG, files are allowed.\n";
-        $upload_ok = 0;
-    }
-    if ($upload_ok == 0) {
-        $model['log'] = "File was not uploaded.\n";
-    } else {
-        if (move_uploaded_file($_FILES['userfile']['tmp_name'], $target_file)) {
-            echo "File " . htmlspecialchars(basename($_FILES['userfile']['name'])) . " has been uploaded.\n";
-            $watermark = $_POST['watermark'];
-            $obj_image = new image($target_file);
-            $obj_image->watermark_image($watermark, 'images/watermark/');
-            $obj_image->thumbnail_image(200, 125, 'images/thumbnail/');
-
+        if (file_exists($target_file)) {
+            $model['log'] .= "File already exists. ";
+            $upload_ok = 0;
+        }
+        if ($_FILES['file']['size'] > (1024*1024)) {
+            $model['log'] .= "File is too large. ";
+            $upload_ok = 0;
+        }
+        if ($image_file_type != 'jpg' && $image_file_type != 'png' && $image_file_type != 'jpeg') {
+            $model['log'] .= "Only JPG, JPEG, PNG, files are allowed. ";
+            $upload_ok = 0;
+        }
+        if ($upload_ok == 0) {
+            $model['log'] .= "File was not uploaded. ";
         } else {
-            $model['log'] = "There was an error uploading file.\n";
+            if (move_uploaded_file($_FILES['file']['tmp_name'], $target_file)) {
+                $model['log'] .= "File " . htmlspecialchars(basename($_FILES['file']['name'])) . " has been uploaded. ";
+                $watermark = $_POST['watermark'];
+                $obj_image = new image($target_file);
+                $obj_image->watermark_image($watermark, 'images/watermark/');
+                $obj_image->thumbnail_image(200, 125, 'images/thumbnail/');
+            } else {
+                $model['log'] .= "There was an error uploading file. ";
+            }
         }
     }
     return 'upload_view';

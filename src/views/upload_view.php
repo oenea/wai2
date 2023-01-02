@@ -12,33 +12,33 @@
         <form action="<?= $model['action'] ?>" method="POST" enctype="multipart/form-data">
             <h3>Upload</h3>
             <h4>Upload photo</h4>
-            <label for="username">
+            <label for="author">
                 <?php if ($model['label'])
-                echo 'author' ?>
+                echo 'autor' ?>
             </label>
             <input type="text" name="author" placeholder="<?php if (!$model['label'])
-            echo 'username' ?>" required>
+            echo 'autor' ?>" required>
 
             <label for="watermark">
                 <?php if ($model['label'])
-                echo 'author' ?>
+                echo 'znak wodny' ?>
             </label>
             <input type="text" name="watermark" placeholder="<?php if (!$model['label'])
-            echo 'watermark' ?>" required>
+            echo 'znak wodny' ?>" required>
 
             <label for="public-private">
                 <?php if ($model['label'])
-                echo 'public' ?>
+                echo 'publiczne' ?>
             </label>
             <input type="radio" name="public-private" value="<?php if (!$model['label'])
-            echo 'public' ?>" checked="checked" required>
+            echo 'publiczne' ?>" checked="checked" required>
 
             <label for="public-private">
                 <?php if ($model['label'])
-                echo 'private' ?>
+                echo 'prywatne' ?>
             </label>
             <input type="radio" name="public-private" value="<?php if (!$model['label'])
-            echo 'private' ?>" required>
+            echo 'prywatne' ?>" required>
 
             <label for="file">
                 <?php if ($model['label'])
@@ -50,7 +50,7 @@
 
             <button name="upload" type="submit">submit</button>
         </form>
-        </form>
+        <?= $model['log']?>
     </div>
     <?php include "includes/footer.inc.php"; ?>
 </body>

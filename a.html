@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title> Strong password validation in javascript </title>
+<script>
+function validateSecPass(secure-pass) {
+if (secure-pass.length === 0) {
+document.getElementById("checkMemberId").innerHTML = "";
+return;
+}
+var Pakainfo = new Array();
+Pakainfo.push("[$@$!%*#?&]"); // Special Charector
+Pakainfo.push("[A-Z]");      // Uppercase Alpabates
+Pakainfo.push("[0-9]");      // Numbers
+Pakainfo.push("[a-z]");     // Lowercase Alphabates
+var ctr = 0;
+for (var i = 0; i < Pakainfo.length; i++) {
+if (new RegExp(Pakainfo[i]).test(secure-pass)) {
+ctr++;
+}
+}
+
+var color = "";
+var strength = "";
+switch (ctr) {
+case 0:
+case 1:
+case 2:
+strength = "Very Weak in length";
+color = "blue";
+break;
+case 3:
+strength = "Medium";
+color = "pink";
+break;
+case 4:
+strength = "Strong";
+color = "gray";
+break;
+}
+document.getElementById("checkMemberId").innerHTML = strength;
+document.getElementById("checkMemberId").style.color = color;
+}
+</script>
+</head>
+<body>
+<strong> strong password validation in javascript </strong>
+<div>
+<label for="pwd">Password:</label>
+<input type="text" id="pwd"  onkeyup="validateSecPass(this.value);"/><span id="checkMemberId"></span>
+</div>
+</body>
+</html>

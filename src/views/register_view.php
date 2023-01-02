@@ -15,27 +15,35 @@
 
             <label for="username">
                 <?php if ($model['label'])
-                echo 'username' ?>
+                echo 'login' ?>
             </label>
             <input type="text" name="username" placeholder="<?php if (!$model['label'])
-            echo 'username' ?>" required>
+            echo 'login' ?>" required>
 
             <label for="email">
                 <?php if ($model['label'])
-                echo 'email' ?>
+                echo 'adres e-mail' ?>
             </label>
             <input type="email" name="email" placeholder="<?php if (!$model['label'])
-            echo 'email' ?>" required>
+            echo 'adres e-mail' ?>" required>
 
             <label for="password">
                 <?php if ($model['label'])
-                echo 'Your password' ?>
+                echo 'hasło' ?>
             </label>
             <input type="password" name="password" placeholder="<?php if (!$model['label'])
-            echo 'email' ?>" required>
+            echo 'hasło' ?>" required>
+
+            <label for="password-repeat">
+                <?php if ($model['label'])
+                echo 'powtórz hasło' ?>
+            </label>
+            <input type="password" name="password-repeat" placeholder="<?php if (!$model['label'])
+            echo 'powtórz hasło' ?>" required>
 
             <button name="register" type="submit">submit</button>
         </form>
+        <?= $model['log']?>
     </div>
     <?php include "includes/footer.inc.php"; ?>
 </body>
