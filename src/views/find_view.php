@@ -25,7 +25,7 @@
     <script>
         function show_gallery(str) {
             if(str > 0){
-                document.getElementById("")
+                fetch()
             }
         }
         /*$(function () {
