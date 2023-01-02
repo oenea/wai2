@@ -6,9 +6,10 @@
 </head>
 
 <body>
-    <?php include "partial/menu.inc.php"; ?>
+    <?php dispatch($routing, '/menu') ?>
+
     <div class="container">
-        <form action="<?= $model['action'] ?>" method="post" enctype="multipart/form-data">
+        <form action="<?= $model['action'] ?>" method="POST" enctype="multipart/form-data">
             <h3>Upload</h3>
             <h4>Upload photo</h4>
             <label for="username">

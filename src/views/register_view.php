@@ -6,9 +6,10 @@
 </head>
 
 <body>
-    <?php include "partial/menu.inc.php"; ?>
+    <?php dispatch($routing, '/menu') ?>
+
     <div class="container">
-        <form action="<?= $model['action'] ?>" method="post">
+        <form action="<?= $model['action'] ?>" method="POST">
             <h3>Register</h3>
             <h4>Register for more features</h4>
 

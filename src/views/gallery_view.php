@@ -3,48 +3,54 @@
 
 <head>
 	<title>Galeria</title>
-	<?php include "includes/head.inc.php"; ?>
+	<?php include 'includes/head.inc.php'; ?>
 </head>
 
 <body>
-	<?php include "partial/menu.inc.php";?>
+	<?php dispatch($routing, '/menu') ?>
+
+<!--pre>
+	<?php print_r($_SESSION); ?>
+	<?php print_r($_REQUEST); ?>
+</pre-->
 	<div>
 		<ul style="<?php if ($total_pages == 1) {
 		echo 'display: none;';
 	} ?>">
-			<li><a href="gallery?page=1">First<?php print($images[0]['filename'] . $images[1]['filename'] . count($images)) ?></a></li>
+			<li><a href="?page=1">First</a></li>
 			<li style="<?php if ($page_number <= 1) {
 			echo 'display: none;';
 		} ?>">
-				<a href="<?php echo "gallery?page=" . ($page_number - 1); ?>">Prev</a>
+				<a href="<?php echo "?page=" . ($page_number - 1); ?>">Prev</a>
 			</li>
 			<li style="<?php if ($page_number >= $total_pages) {
 			echo 'display: none;';
 		} ?>">
-				<a href="<?php echo "gallery?page=" . ($page_number + 1); ?>">Next</a>
+				<a href="<?php echo "?page=" . ($page_number + 1); ?>">Next</a>
 			</li>
-			<li><a href="gallery?page=<?php echo ($total_pages) ?>">Last</a></li>
+			<li><a href="?page=<?php echo ($total_pages) ?>">Last</a></li>
 
 		</ul>
 	</div>
-	<ul>
-		<?php
-		for ($iterator = 0; $iterator < $limit; $iterator += 1) {
-			if ($page_number >= 1 && $page_number <= $total_pages) {
-				if (count($all_files) > $iterator + ($page_number - 1) * $limit) {
-					echo "<div class=\"images-border\">";
-					echo "<a href=" . $images_directory . $all_files[$iterator + ($page_number - 1) * $limit] . ">";
-					echo "<img src=" . $thumbnail_directory . $all_files[$iterator + ($page_number - 1) * $limit] . "></a>";
-					echo "</div>";
-				}
-			}
-		}
-		?>
-		</div>
-	</ul>
 
-	<?php include "includes/footer.inc.php"; ?>
-
+	<form method="post">
+		<ul>
+			<?php if(isset($images)) foreach($images as $key => $value): ?>
+				<div class="images-border">
+					<a href="<?= $value['href'] ?>"><img src="<?= $value['src'] ?>"></a>
+					<input type="hidden" value="false" name="<?= $value['id'] ?>"/>
+					<input type="checkbox" <?php if($value['checked'] === 'true') echo "checked=\"checked\""; ?> value="true" name="<?= $value['id'] ?>">
+					<label for="<?= $value['id'] ?>"><?= $value['description'] ?></label>
+				</div>
+			<?php endforeach ?>
+		</ul>
+		<button type="submit">remember selected</button>
+	</form>
+	<footer>
+		<?php include 'includes/footer.inc.php'; ?>
+	</footer>
 </body>
+
+<!--<php print($images[0]['filename'] . $images[1]['filename'] . count($images)) ?>-->
 
 </html>
