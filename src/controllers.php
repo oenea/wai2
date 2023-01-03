@@ -92,18 +92,20 @@ function menu(&$model)
 function login(&$model)
 {
     $model['log'] = '';
+    $model['action'] = '';
+    $model['label'] = false;
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (check_user_by_name($_POST['username'])) {
-            //if()
-            $_SESSION['login'] = $_POST['username'];
-            return 'redirect:gallery';
+            print_r(check_password($_POST['username'], $_POST['password']));
+            if (check_password(($_POST['username']), $_POST['password'])) {
+                $_SESSION['login'] = $_POST['username'];
+                return 'redirect:gallery';
+            }
         } else {
-            $model['log'] = 'Błędny login';
+            $model['log'] .= 'Błędny login lub hasło';
         }
-    }
-    $model['action'] = '';
-    $model['label'] = false;
+    } 
     return 'login_view';
 }
 
@@ -165,12 +167,17 @@ function find_result(&$model)
 function register(&$model)
 {
     $model['log'] = '';
-  
+    $model['action'] = '';
+    $model['label'] = false;
     if (($_SERVER['REQUEST_METHOD'] === 'POST') && isset($_POST['name']) && strlen($_POST['name'])) {
+        if($_POST['password'] !== $_POST['password-repeat']){
+            $model['log'] = 'Hasła nie są takie same';
+            return 'register_view';
+        } 
          if(!check_user_by_name($_POST['name']) ){
             $user = array(
                 'name' => $_POST['name'],
-                'password' => $_POST['password'],
+                'password' => password_hash($_POST['password'], PASSWORD_DEFAULT),
                 'email' => $_POST['email']
             );
             save_user(null, $user);
@@ -180,8 +187,6 @@ function register(&$model)
             $model['log'] = 'Login zajęty';          
         }
     }
-    $model['action'] = '';
-    $model['label'] = false;
     return 'register_view';
 }
 

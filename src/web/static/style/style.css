@@ -7,12 +7,10 @@
 
 body {
   position: relative;
+  justify-content: center;
   background-color: var(--main-background-color);
 }
 
-ul:after {
-  white-space: <br>;
-}
 
 li {
   float: left;

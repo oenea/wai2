@@ -9,6 +9,7 @@
 <body>
     <?php dispatch($routing, '/menu') ?>
 
+    <br><br><br>
     <div class="container">
         <form action="<?= $model['action'] ?>" method="POST">
             <h3>Login</h3>
@@ -21,13 +22,16 @@
             <input type="text" name="username" placeholder="<?php if (!$model['label'])
             echo 'username' ?>" required>
 
+            <br><br>
+
             <label for="password">
                 <?php if ($model['label'])
-                echo 'Your password' ?>
+                echo 'password' ?>
             </label>
             <input type="password" name="password" placeholder="<?php if (!$model['label'])
-            echo 'email' ?>" required>
+            echo 'password' ?>" required>
 
+            <br><br>
             <button name="login" type="submit">submit</button>
         </form>
         <?= $model['log'] ?>

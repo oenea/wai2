@@ -13,6 +13,7 @@
 	<?php print_r($_SESSION); ?>
 	<?php print_r($_REQUEST); ?>
 	</pre-->
+	<br><br><br>
 	<div>
 		<ul style="<?php if ($total_pages == 1) {
 		echo 'display: none;';
@@ -32,6 +33,7 @@
 
 		</ul>
 	</div>
+	<br><br><br>
 
 	<form class="form" method="POST">
 		<ul>

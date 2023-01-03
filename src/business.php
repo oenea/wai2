@@ -10,15 +10,23 @@ function get_db()
         [
             'username' => 'wai_web',
             'password' => 'w@i_w3b',
-        ]);
+        ]
+    );
     $db = $mongo->wai;
     return $db;
+}
+function check_password($user, $password)
+{
+    $db = get_db();
+    $login = $db->users->findOne(['name' => $user]);
+    $password_hash = $login['password'];
+    return password_verify($password, $password_hash);
 }
 
 function check_image_by_filename($filename, $not_user)
 {
     $db = get_db();
-    if($not_user) {
+    if ($not_user) {
         $image = $db->images->findOne(['filename' => $filename, 'user' => ['$ne' => $not_user]]);
     } else {
         $image = $db->images->findOne(['filename' => $filename]);
@@ -30,7 +38,7 @@ function get_author_image_by_filename($filename)
 {
     $db = get_db();
     $image = $db->images->findOne(['filename' => $filename]);
-    return is_object($image)? $image['author'] : '';
+    return is_object($image) ? $image['author'] : '';
 }
 
 function save_image($id, $image)
@@ -138,7 +146,7 @@ class image
         $watermark_color = imagecolorallocate($dest_image, 0, 0, 0);
         //imagestring($dest_image, $source_image_width/15, $source_image_width/3, $source_image_height/2, $watermark, $watermark_color);
         $font = './LDFComicSans.ttf';
-        imagefttext($dest_image,  ($source_image_width/20), 45, ($source_image_width) / 3, (2 * $source_image_height) / 3, $watermark_color, $font, $watermark);
+        imagefttext($dest_image, ($source_image_width / 20), 45, ($source_image_width) / 3, (2 * $source_image_height) / 3, $watermark_color, $font, $watermark);
 
         if (
             (strtolower(pathinfo($this->source, PATHINFO_EXTENSION)) == "jpg") ||
