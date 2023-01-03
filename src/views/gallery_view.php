@@ -42,13 +42,17 @@
 					<div class="images-border">
 						<a href="<?= $value['href'] ?>"><img src="<?= $value['src'] ?>"></a>
 						<input class="form-input" type="hidden" value="false" name="<?= $value['id'] ?>" />
-						<input class="form-input" type="checkbox" <?php if ($value['checked'] === 'true') echo "checked=\"checked\""; ?> value="true" name="<?= $value['id'] ?>">
+						<input class="form-input" type="checkbox" <?php if ($value['checked'] === 'true')
+						echo "checked=\"checked\""; ?> value="true" name="<?= $value['id'] ?>">
 						<label class="form-label" for="<?= $value['id'] ?>">
 							<?= $value['description'] ?>
-							<?php if ($value['private'] === 'true') echo "|<strong>PRIVATE</strong>|".$value['author']; ?>
+							<?php if ($value['private'] === 'true')
+							echo " |<strong>PRIVATE</strong>| " . $value['author']; ?>
+							<?php if($value['private'] !== 'true')
+							echo ' | ' . $value['author2']; ?>
 						</label>
 					</div>
-					<?php endforeach ?>
+			<?php endforeach ?>
 		</ul>
 		<button class="form-button" type="submit">remember selected</button>
 	</form>

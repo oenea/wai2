@@ -15,6 +15,23 @@ function get_db()
     $db = $mongo->wai;
     return $db;
 }
+
+function save_public($id, $image){
+    $db = get_db();
+    if ($id == null) {
+        $db->public->insertOne($image);
+    } else {
+        $db->public->replaceOne(['_id' => new ObjectID($id)], $image);
+    }
+    return true;
+}
+function get_author_public_by_filename($filename)
+{
+    $db = get_db();
+    $image = $db->public->findOne(['filename' => $filename]);
+    return is_object($image) ? $image['author'] : '';
+}
+
 function check_password($user, $password)
 {
     $db = get_db();

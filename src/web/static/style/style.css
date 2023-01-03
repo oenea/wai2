@@ -2,13 +2,12 @@
   --main-background-color: #a95e1f;
   --main-: #653024;
   --main-form-color: #f5deb3;
-  --main-: #a95e1f;
+  --main-a: #F9FeBf;
 }
 
 body {
-  position: relative;
-  justify-content: center;
-  background-color: var(--main-background-color);
+  background-color: var(--main-form-color);
+  font-size: 20px;
 }
 
 
@@ -31,12 +30,53 @@ li > a {
   color: black;
 }
 
-.menu > li:active {
+.menu > li {
   border: solid 0.1rem black;
-  background-color: blue;
+  background-color: var(--main-background-color);
 }
 
 .menu > li:hover {
   border: solid 0.1rem black;
-  background-color: var(--main-background-color);
+  background-color: aquamarine;
+}
+
+input {
+  background-color: var(--main-a);
+  border: solid 1px black;
+  font-size: 20px;
+}
+input:hover {
+  background-color: var(--main-form-color);
+  border: solid 1px black;
+  font-size: 20px;
+}
+
+button {
+  background-color: red;
+  border: solid 1px black;
+  font-size: 20px;
+}
+button:hover {
+  background-color: var(--main-form-color);
+  border: solid 1px black;
+  font-size: 20px;
+}
+
+ul > li {
+  text-decoration: none;
+  background-color: aqua;
+}
+ul > li:hover {
+  text-decoration: none;
+  background-color: green;
+}
+
+
+.container {
+  font-family: arial;
+  font-size: 24px;
+  margin: 40px;
+  padding: 20px;
+  outline: dashed 1px black;
+  position: relative;
 }
