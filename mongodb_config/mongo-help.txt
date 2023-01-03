@@ -1,0 +1,10 @@
+db.users.find()
+db.users.drop()
+db.users.insert([ { name: "michalek", password: "aa", email: "michal@wp.pl" } ]);  
+db.findOne({ description: "aaa"});
+
+
+mongo --username=wai_web --password=w@i_w3b wai             
+
+db.getCollectionNames();
+db.images.find()                                          

@@ -112,6 +112,7 @@ function login(&$model)
 
 function logout(&$model)
 {
+    session_regenerate_id();
     unset($_SESSION);
     session_destroy();
     session_write_close();
