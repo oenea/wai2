@@ -95,6 +95,7 @@ function login(&$model)
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (check_user_by_name($_POST['username'])) {
+            //if()
             $_SESSION['login'] = $_POST['username'];
             return 'redirect:gallery';
         } else {
